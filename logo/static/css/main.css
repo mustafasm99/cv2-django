@@ -1,0 +1,116 @@
+body
+{
+    margin          : 20px;
+}
+
+*
+{
+    max-width       : 1200px;
+    min-width       : 360px;
+    max-height      : 100%;
+    margin          : 0;
+    padding         : 0;
+    background-color: #f2f2f2;
+    text-align      : center;
+}
+.flex
+{
+    display         : flex;
+    flex-direction  : row;
+    flex-wrap       : wrap;
+    flex-grow       : 1;
+    flex-shrink     : 1;
+    justify-content : center;
+    align-items     : center;
+}
+.container
+{
+    margin          : 20px;
+    padding         : 20px;
+    margin          : 0 auto;
+    width           : fit-content;
+}
+.main-container
+{
+    width           : 100%;
+    height          : 80%;
+    margin          : 20px;
+    padding         : 20px;
+    position        : absolute;
+    left            : 50%;
+    top             : 50%;
+    transform       : translate(-50% , -50%);
+}
+.shadow
+{
+    box-shadow      : rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.rounded
+{
+    border-radius    : 12px;
+}
+.border
+{
+    border            : 1px solid black;
+}
+.btn
+{
+    outline             : none;
+    background-color    : transparent;
+    border-radius       : 12px;
+    width               : fit-content;
+    padding             : 5px;
+    margin              : 5px;
+}
+.btn-dark
+{
+    background-color    : rgb(36, 36, 36);
+    color               : white;
+    text-align          : center;
+}
+.input-group
+{
+    width               : fit-content;
+    margin              : 12px;
+    padding             : 25px;
+    flex                : 1;
+    text-align          : center;
+    border              : 5px dashed rgb(71, 71, 71);
+    border-radius       : 12px;
+    position            : relative;
+    
+}
+.input-group h1
+{
+    text-align          : center;
+    margin              : 22px auto;
+}
+.input-group input[type="file"]
+{
+    cursor              : pointer;
+    margin              : 0 auto;
+    opacity             : 0;
+    height              : 100%;
+    width               : 100%;
+    position            : absolute;
+    left                : 50%;
+    top                 : 50%;
+    transform           : translate(-50% , -50%);
+
+}
+.input-group button
+{
+    border              : 2px solid;
+    border-radius       : 4px;
+    color               : blue;
+    display             : inline-block;
+    padding             : 10px 20px;
+    position            : relative;
+}
+.input-group img,video
+{
+    width               : 100%;
+    height              : 100%;
+    object-fit          : cover;
+    display             : none;
+}

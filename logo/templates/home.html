@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>Home</title>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+    <div class="main-container flex rounded shadow border">
+        <div class="welcom" style="flex: 100%;">
+            <h1>
+                Put your logo on any video you wnat
+            </h1>
+        </div>
+            {%  csrf_token  %}
+            <div class="input-group">
+                <h1>
+                    selecte your logo image 
+                </h1>
+                <input type="file"  id="" name="logo">
+                <div class="mediaContainer">
+                    <img src="" alt="">
+                </div>
+            </div>
+            <div class="input-group">
+                <h1>
+                    Select your video
+                </h1>
+                <input type="file"  id="" name="video">
+                <div class="mediaContainer">
+                    <video src="" controls>
+                    </video>
+                </div>
+
+            </div>
+            <div>
+                <button class="btn btn-dark">
+                    Make
+                </button>
+            </div>
+        </div>
+    </form>
+    
+</body>
+</html>
