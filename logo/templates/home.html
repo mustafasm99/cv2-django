@@ -5,44 +5,161 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/script.js' %}">
     <title>Home</title>
 </head>
 <body>
+
+    <form action="" method="post" enctype="multipart/form-data">
+        <div class="main-container flex rounded shadow border">
+            <div class="welcom" style="flex: 100%;">
+                
+                <h1>
+                    Put your logo on any video you want!
+                </h1>
+            </div>
+            {% csrf_token %}
+            <div class="input-group">
+                <img src="" alt="">
+                <h1>
+                    Select your logo image 
+                </h1>
+                <input type="file" id="logoInput" name="logo" accept="image/*"  onchange="displayMedia('logo')" required>
+                <div class="mediaContainer" id="logoContainer" style="background-image: none;"></div>
+            </div>
+
+            <div class="input-group">
+                <h1>
+                    Select your video
+                </h1>
+                <input type="file" id="videoInput" name="video" accept="video/*" onchange="displayMedia('video')" multiple required>
+                <video id="videoPreview" controls></video>
+             
+            </div>
+  </div>
+    <div> 
+        <button class="btn btn-dark">
+            Make
+        </button>
+    </div>
+
+    <!-- <div class="mediaContainer" id="videoInput" style="background-image: none;"><div id="video-container">
+        <video id="video" width="400" controls>
+          <source src="" type="video/mp4">
+        </video>
+        <div id="imageInput"></div>
+    </div> -->
+        </div>
+    </form>
+
+<script>
+
+
+const videoInput = document.getElementById('videoInput');
+    const imageInput = document.getElementById('imageInput');
+    const videoPreview = document.getElementById('videoPreview');
+    const imagePreview = document.getElementById('imagePreview');
+
+    videoInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const url = URL.createObjectURL(file);
+      videoPreview.src = url;
+      
+    });
+
+    imageInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        imagePreview.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+function displayMedia(type) {
+        const input = document.getElementById(type + 'Input');
+        const mediaContainer = document.getElementById(type + 'Container');
+        
+        // Clear previous content
+        mediaContainer.innerHTML = '';
+
+        const files = input.files;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const objectURL = URL.createObjectURL(file);
+
+            // Update the background-image property of the media container with the selected file
+            if (type === 'logo') {
+                mediaContainer.style.backgroundImage = 'url(' + objectURL + ')';
+                mediaContainer.style.backgroundSize = 'cover';
+                mediaContainer.style.backgroundRepeat = 'no-repeat';
+            } else if (type === 'video') {
+                const videoElement = document.createElement('video');
+                videoElement.src = objectURL;
+                videoElement.controls = true;
+                mediaContainer.appendChild(videoElement);
+            }
+        }
+    }    
+
+
+   
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
     <form action="" method="post" enctype="multipart/form-data">
     <div class="main-container flex rounded shadow border">
         <div class="welcom" style="flex: 100%;">
             <h1>
-                Put your logo on any video you wnat
+                Put your logo on any video you want!
             </h1>
         </div>
             {%  csrf_token  %}
             <div class="input-group">
                 <h1>
-                    selecte your logo image 
+                    Select your logo image 
                 </h1>
                 <input type="file"  id="" name="logo">
                 <div class="mediaContainer">
                     <img src="" alt="">
                 </div>
             </div>
+
+        
             <div class="input-group">
                 <h1>
                     Select your video
                 </h1>
                 <input type="file"  id="" name="video">
                 <div class="mediaContainer">
-                    <video src="" controls>
-                    </video>
-                </div>
-
+                    <video src="" controls></video>
+                </div>    
             </div>
-            <div>
+
+            <div> 
                 <button class="btn btn-dark">
                     Make
                 </button>
             </div>
         </div>
-    </form>
+    </form> -->
     
 </body>
 </html>

@@ -80,6 +80,19 @@ body
     position            : relative;
     
 }
+.input-group img
+{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    background-color: red;
+    z-index: 9;
+    display: none;
+}
 .input-group h1
 {
     text-align          : center;
@@ -114,3 +127,40 @@ body
     object-fit          : cover;
     display             : none;
 }
+
+#video-container
+{
+    position            : relative;
+    position: absolute;
+    justify-content: center;
+    background-color:black;
+    width:300px;
+    height: 300px;
+  }
+  #logo {
+    position            : absolute;
+    top                 : 0;
+    left                : 0;
+    width               : 100px;
+    height              : 100px;
+    background-color    : rgb(0, 255, 21);
+    cursor              : move;
+    resize              : both;
+    min-width           : 10px;
+    min-height          : 10px;
+    background-image    : url();
+    background-size     : contain;
+    background-position : center;
+    background-repeat   : no-repeat;
+  }
+  #videoPreview {
+    width: 400px;
+  }
+  
+  #imagePreview {
+    width: 200px;
+  }
+  video{
+    width: 300px;
+    height: 300px;
+  }
