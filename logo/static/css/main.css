@@ -148,19 +148,25 @@ body
     resize              : both;
     min-width           : 10px;
     min-height          : 10px;
-    background-image    : url();
     background-size     : contain;
     background-position : center;
     background-repeat   : no-repeat;
   }
-  #videoPreview {
-    width: 400px;
-  }
+  #video-container {
+    position: relative;
+    top                 : 0;
+    left                : 0;
+    width               : 300px;
+    height              : 250px;
+    background-color    : rgb(106, 36, 237);
+    cursor              : move;
+    
+}
   
   #imagePreview {
-    width: 200px;
+    width               : 200px;
   }
   video{
-    width: 300px;
-    height: 300px;
+    width              : 300px;
+    height             : 300px;
   }
