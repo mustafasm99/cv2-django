@@ -1,40 +1,49 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from io import BytesIO
+from django.shortcuts   import render
+from django.http        import HttpResponse
+from moviepy.editor     import VideoFileClip , AudioFileClip
+from logo.settings      import BASE_DIR
 import cv2 as cv
 import numpy as np
 import tempfile
 import os
 
+def extract_audio(video_obj):
+    video       = VideoFileClip(video_obj)
+    audio       = video.audio
+    output_file = BASE_DIR/"file.mp3"   
+    print(video , output_file , audio)
+    audio.write_audiofile(output_file)
+    video.close()
+    return output_file
+
+
 def home(request):
     if request.method == 'POST':
         print(request.FILES)
-        newVideo = []
-        TEMP_FRAME_SHAPE = None
+        newVideo                = []
+        TEMP_FRAME_SHAPE        = None
         # Replace the original line with the following two lines
-        logo_data = request.FILES['logo'].file.read()
-        logo = cv.imdecode(np.frombuffer(logo_data, np.uint8), cv.IMREAD_UNCHANGED)
-        video_content = request.FILES['video'].file.read()
-        vtemp = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4')
+        logo_data               = request.FILES['logo'].file.read()
+        logo                    = cv.imdecode(np.frombuffer(logo_data, np.uint8), cv.IMREAD_UNCHANGED)
+        video_content           = request.FILES['video'].file.read()
+        vtemp                   = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4')
         vtemp.write(video_content)
         vtemp.close()
-        video = cv.VideoCapture(vtemp.name)
-
-        logo_height, logo_width, _ = logo.shape
-        logo_position = (15, 10)
-
+        video                   = cv.VideoCapture(vtemp.name)
+        
+        audio_to_mix            = AudioFileClip(extract_audio(vtemp.name))
+        
+        
+        logo_position           = (15, 10)
         while True:
-            ret, frame = video.read()
+            ret, frame          = video.read()
             if not ret:
                 break
-            TEMP_FRAME_SHAPE =frame.shape
-            logo_resized = cv.resize(logo, (int(frame.shape[1] / 8), int(frame.shape[0] / 8)))
-
-
-            roi = frame[logo_position[1]:logo_position[1] + logo_resized.shape[0],
-                      logo_position[0]:logo_position[0] + logo_resized.shape[1]]
-
-            logo_mask = logo_resized[:, :, 3] / 255.0
+            TEMP_FRAME_SHAPE    = frame.shape
+            logo_resized        = cv.resize(logo, (int(frame.shape[1] / 8), int(frame.shape[0] / 8)))
+            roi                 = frame[logo_position[1]:logo_position[1] + logo_resized.shape[0],
+                                logo_position[0]:logo_position[0] + logo_resized.shape[1]]
+            logo_mask           = logo_resized[:, :, 3] / 255.0
             for c in range(0, 3):
                 roi[:, :, c] = roi[:, :, c] * (1 - logo_mask) + (logo_resized[:, :, c] * logo_mask)
             frame[logo_position[1]:logo_position[1] + logo_resized.shape[0],
@@ -45,7 +54,6 @@ def home(request):
         video.release()
 
         file = tempfile.mktemp(suffix='.mp4')
-        print(file , "HOME FILE")
         out = cv.VideoWriter(file, cv.VideoWriter_fourcc(*'mp4v'), 30, (TEMP_FRAME_SHAPE[1], TEMP_FRAME_SHAPE[0]))
 
         for frame in newVideo:
@@ -54,6 +62,9 @@ def home(request):
 
         out.release()  # Move this line outside of the loop
 
+        print(file , file.name)
+        Video_To_mix        = VideoFileClip(file).set_audio(audio_to_mix)
+        
         with open(file, 'rb') as f:
             response = HttpResponse(f.read(), content_type='video/mp4')
             response['Content-Disposition'] = 'attachment; filename="processed_video.mp4"'

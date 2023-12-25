@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'css/script.js' %}">
     <title>Home</title>
 </head>
 <body>
@@ -24,7 +23,7 @@
                 <h1>
                     Select your logo image 
                 </h1>
-                <input type="file" id="logoInput" name="logo" accept="image/*"  onchange="displayMedia('logo')" required>
+                <input type="file" id="logoInput" name="logo" accept="image/*" required>
                 <div class="mediaContainer" id="logoContainer" style="background-image: none;"></div>
             </div>
 
@@ -32,9 +31,7 @@
                 <h1>
                     Select your video
                 </h1>
-                <input type="file" id="videoInput" name="video" accept="video/*" onchange="displayMedia('video')" multiple required>
-                <video id="videoPreview" controls></video>
-             
+                <input type="file" id="videoInput" name="video" accept="video/*" required>             
             </div>
             <div> 
                 <button class="btn btn-dark">
@@ -43,9 +40,6 @@
             </div>
             <div class="staging flex" id="staging">
                 <img src="" alt="" id="logo">
-                <video src="" id="video-container">
-
-                </video>
             </div>
         </div>
     </form>
