@@ -11,15 +11,13 @@ def extract_audio(video_obj):
     video       = VideoFileClip(video_obj)
     audio       = video.audio
     output_file = BASE_DIR/"file.mp3"   
-    print(video , output_file , audio)
-    audio.write_audiofile(output_file)
-    video.close()
-    return output_file
+    audio.write_audiofile(str(output_file))
+    return str(output_file)
 
 
 def home(request):
     if request.method == 'POST':
-        print(request.FILES)
+        print(request.FILES , request.POST)
         newVideo                = []
         TEMP_FRAME_SHAPE        = None
         # Replace the original line with the following two lines
@@ -30,11 +28,17 @@ def home(request):
         vtemp.write(video_content)
         vtemp.close()
         video                   = cv.VideoCapture(vtemp.name)
+        audio_to_mix            = AudioFileClip(extract_audio(f"{vtemp.name}"))
         
-        audio_to_mix            = AudioFileClip(extract_audio(vtemp.name))
+        data                    = {
+            "x"         : int(request.POST.get('pos-x')),
+            "y"         : int(request.POST.get('pos-y')),
+            "width"     : int(request.POST.get('width')),
+            "height"    : int(request.POST.get('height'))
+        }
         
-        
-        logo_position           = (15, 10)
+        logo_position           = (data['x'], data['y'])
+        print(logo_position)
         while True:
             ret, frame          = video.read()
             if not ret:
@@ -56,16 +60,16 @@ def home(request):
         file = tempfile.mktemp(suffix='.mp4')
         out = cv.VideoWriter(file, cv.VideoWriter_fourcc(*'mp4v'), 30, (TEMP_FRAME_SHAPE[1], TEMP_FRAME_SHAPE[0]))
 
-        for frame in newVideo:
+        for frame in newVideo: 
             if frame is not None:  # Add this check
                 out.write(frame)
 
         out.release()  # Move this line outside of the loop
 
-        print(file , file.name)
+        print(file)
         Video_To_mix        = VideoFileClip(file).set_audio(audio_to_mix)
-        
-        with open(file, 'rb') as f:
+        Video_To_mix.write_videofile(str(BASE_DIR/'Temp'/'videoTemp.mp4') , codec='libx264', audio_codec='aac')
+        with open(str(BASE_DIR/'Temp'/'videoTemp.mp4'), 'rb') as f:
             response = HttpResponse(f.read(), content_type='video/mp4')
             response['Content-Disposition'] = 'attachment; filename="processed_video.mp4"'
         os.remove(file)
